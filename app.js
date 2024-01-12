@@ -1,3 +1,6 @@
+require('dotenv').config(); //added
+//added
+
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
@@ -9,6 +12,10 @@ var mongoose = require('mongoose')
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var authRouter = require('./routes/auth');
+const gameRouter = require("./routes/game.route")
+
+const PORT = process.env.PORT; //added
+
 
 var app = express();
 
@@ -34,7 +41,13 @@ app.use(
 // app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
+app.use('/games', gameRouter)
 
+app.use((req, res, next) => {   //added
+  // Middleware to disable CORS
+  res.header("Access-Control-Allow-Origin", "*");   //added
+  next();   //added
+});  
 
 mongoose
   .connect(process.env.MONGODB_URI)
