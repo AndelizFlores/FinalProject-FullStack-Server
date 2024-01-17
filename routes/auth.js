@@ -14,8 +14,8 @@ const saltRounds = 10;
 // POST  /auth/signup
 // ...
 router.post("/signup", (req, res, next) => {
-  const { email, password, username } = req.body;
-
+  const { email, password, username, platforms, location} = req.body;
+  console.log(req.body)
   // Check if the email or password or name is provided as an empty string
   if (!email || !password || !username) {
     res.status(400).json({ message: "Provide email and password" });
@@ -51,14 +51,49 @@ router.post("/signup", (req, res, next) => {
 
       // Create a new user in the database
       // We return a pending promise, which allows us to chain another `then`
-      User.create({ email, password: hashedPassword, username })
+      User.create({ email, password: hashedPassword, username, platforms, location})
         .then((createdUser) => {
           // Deconstruct the newly created user object to omit the password
           // We should never expose passwords publicly
-          const { email, username, photo, _id } = createdUser;
+          const { 
+            email, 
+            username, 
+            photo, 
+            _id,
+            friends,   //added
+            gamesLibrary, //added
+            Description, //added
+            Platforms,//added
+            Location, //added
+            Occupation, //added
+          } = createdUser;
 
           // Create a new object that doesn't expose the password
-          const payload = { email, username, photo, _id };
+          const payload = { 
+            email, 
+            username, 
+            photo, 
+            _id,
+            friends,   //added
+            gamesLibrary, //added
+            Description, //added
+            Platforms,//added
+            Location, //added
+            Occupation, //added
+          };
+
+          // username
+          // email
+          // password
+          // photo
+          // friends
+          // GamesLibrary
+          // Description 
+          // Platforms
+          // Location
+          // Occupation
+          // viewedProfile : Math.floor(Math.radom() * 10000)
+          // impressions : Math.floor(Math.radom() * 10000)
 
           const authToken = jwt.sign(payload, process.env.SECRET, {
             algorithm: "HS256",
@@ -114,17 +149,39 @@ router.post("/login", (req, res, next) => {
 
       if (passwordCorrect) {
         // Deconstruct the user object to omit the password
-        const { _id, email, username, photo} = foundUser;
-
+        const { 
+          email, 
+          username, 
+          photo, 
+          _id,
+          friends,   //added
+          gamesLibrary, //added
+          description, //added
+          platforms,//added
+          location, //added
+          occupation, //added
+        } = foundUser
+  
         // Create an object that will be set as the token payload
-        const payload = { _id, email, username, photo};
-
+        const payload = { 
+          _id,
+          email, 
+          username, 
+          photo,
+          friends,   //added
+          gamesLibrary, //added
+          description, //added
+          platforms,//added
+          location, //added
+          occupation, //added
+        };
+  
         // Create and sign the token
         const authToken = jwt.sign(payload, process.env.SECRET, {
           algorithm: "HS256",
           expiresIn: "6h",
         });
-
+  
         // Send the token as the response
         res.status(200).json({ authToken });
       } else {

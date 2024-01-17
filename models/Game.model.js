@@ -4,10 +4,10 @@ const gameSchema = new Schema({
     name: String
 
 }, {
-    strictQuery: false
+    strict: false
 })
 
-module.exports = Game = model("game", gameSchema)
+module.exports = model("Game", gameSchema)
 
 //Schema:
 

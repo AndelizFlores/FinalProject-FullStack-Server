@@ -14,4 +14,16 @@ router.get("/", async (req, res) => {
 
 } )
 
+router.post('/', (req, res, next) => {
+    GameModel.create(req.body)
+        .then((createdGame) => {
+            console.log(err)
+            res.json(createdGame)
+        })
+        .catch((err) => {
+            console.log(err)
+            res.json(err)
+        })
+})
+
 module.exports = router
