@@ -11,7 +11,7 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: true,
-      min: 5,  //added
+      minlength: 5,  //added
     },
     photo: {
       type: String,
@@ -22,6 +22,8 @@ const userSchema = new Schema(
     gamesLibrary: [{type: Schema.Types.ObjectId, ref: "Game"}],
     description: {
       type: String,
+      minlength: 15,
+      maxlength: 60, //added
       default: "My description..."
     },
     platforms: {

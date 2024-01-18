@@ -12,11 +12,11 @@ const postSchema = new Schema(
     },
     photo: {
       type: String,
-      required: true,
+      // required: true,
     },
     location: {
       type: String,
-      required: true,
+      // required: true,
       default: "None",
     },
     text: {
@@ -26,10 +26,7 @@ const postSchema = new Schema(
     game: String,
     gameId: {type: Schema.Types.ObjectId, ref: "Game"},
     likes: [{type: Schema.Types.ObjectId, ref: "User"}],
-    comments: {
-      type: Array,
-      default: [],
-    },
+    comments: [{type: Schema.Types.ObjectId, ref: "Comment"}],
   },
   {
     timestamps: true,
